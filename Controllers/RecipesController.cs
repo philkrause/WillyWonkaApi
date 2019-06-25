@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using willywonkaapi;
 using willywonkaapi.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace willywonkaapi.Controllers
@@ -22,14 +23,22 @@ namespace willywonkaapi.Controllers
       db.SaveChanges();
       return myRecipe;
     }
-
     [HttpGet("all")]
     public ActionResult<List<RecipeTableStructure>> GetAll()
     {
       var db = new DatabaseContext();
-      var allData = db.RecipeTableName;
-      return allData.ToList();
+      var allRecipes = db.RecipeTableName.Include(i => i.LocationTableName);
+      return allRecipes.ToList();
     }
+
+    // [HttpGet()]
+    // public ActionResult<List<RecipeTableStructure>> GetAll([FromQuery]int locationid)
+    // {
+    //   var db = new DatabaseContext();
+    //   var local = db.LocationTableName.Include(f => f.Id == locationid);
+    //   var returnValue = db.RecipeTableName.Where(w => w.LocationTableNameId == local.Id);
+    //   return returnValue.ToList();
+    // }
 
     [HttpGet("{id}")]
     public ActionResult<RecipeTableStructure> ListGetOneRecipe(int id)
@@ -49,6 +58,7 @@ namespace willywonkaapi.Controllers
       oneRecipe.Description = recipe.Description;
       oneRecipe.Amount = recipe.Amount;
       oneRecipe.Price = recipe.Price;
+      oneRecipe.LocationTableNameId = recipe.LocationTableNameId;
       db.SaveChanges();
       return oneRecipe;
     }

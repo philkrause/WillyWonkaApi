@@ -47,5 +47,6 @@ namespace willywonkaapi
     }
 
     public DbSet<RecipeTableStructure> RecipeTableName { get; set; }
+    public DbSet<LocationTableStructure> LocationTableName { get; set; }
   }
 }

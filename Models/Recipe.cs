@@ -12,5 +12,9 @@ namespace willywonkaapi.Models
     public int Amount { get; set; }
     public decimal Price { get; set; }
 
+    public int? LocationTableNameId { get; set; }
+
+    public LocationTableStructure LocationTableName { get; set; }
+
   }
 }

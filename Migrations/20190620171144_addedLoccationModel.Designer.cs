@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using willywonkaapi;
@@ -9,9 +10,10 @@ using willywonkaapi;
 namespace willywonkaapi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190620171144_addedLoccationModel")]
+    partial class addedLoccationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace willywonkaapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LocationTableName");
+                    b.ToTable("LocationTableStructure");
                 });
 
             modelBuilder.Entity("willywonkaapi.Models.RecipeTableStructure", b =>
@@ -46,7 +48,7 @@ namespace willywonkaapi.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("LocationTableNameId");
+                    b.Property<int?>("LocationId");
 
                     b.Property<string>("Name");
 
@@ -56,16 +58,16 @@ namespace willywonkaapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationTableNameId");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("RecipeTableName");
                 });
 
             modelBuilder.Entity("willywonkaapi.Models.RecipeTableStructure", b =>
                 {
-                    b.HasOne("willywonkaapi.Models.LocationTableStructure", "LocationTableName")
-                        .WithMany("RecipeTableName")
-                        .HasForeignKey("LocationTableNameId");
+                    b.HasOne("willywonkaapi.Models.LocationTableStructure", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
 #pragma warning restore 612, 618
         }
